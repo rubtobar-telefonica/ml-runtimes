@@ -10,6 +10,7 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}/pbj-workbench-python3.10-cuda
   DOCKERFILE: pbj-workbench-python3.10-cuda.Dockerfile
+  DATE: $(date +'%Y-%m-%d')
 
 jobs:
 
@@ -26,6 +27,6 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the Docker image
       run: |
-       docker build . -f ${{ env.DOCKERFILE }} --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$(date +%s)
-       docker run ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$(date +%s)
-       docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$(date +%s)
+       docker build . -f ${{ env.DOCKERFILE }} --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DATE }}
+       docker run ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DATE }}
+       docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DATE }}
