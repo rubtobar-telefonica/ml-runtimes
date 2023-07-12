@@ -1,0 +1,31 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "public-runtimes" ]
+    
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+  DOCKERFILE: pbj-workbench-python3.10-cuda.Dockerfile
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build the Docker image
+      run: |
+       docker build . --tag ${{ env.IMAGE_NAME }}/${{ env.DOCKERFILE }}:$(date +%s)
+       docker run ${{ env.IMAGE_NAME }}/${{ env.DOCKERFILE }}:$(date +%s)
+       docker push ${{ env.IMAGE_NAME }}/${{ env.DOCKERFILE }}:$(date +%s)
