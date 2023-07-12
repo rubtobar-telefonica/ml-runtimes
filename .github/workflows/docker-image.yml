@@ -26,6 +26,6 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the Docker image
       run: |
-       docker build -f ${{ env.DOCKERFILE }} . --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ env.DOCKERFILE }}:$(date +%s)
-       docker run ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ env.DOCKERFILE }}:$(date +%s)
-       docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/${{ env.DOCKERFILE }}:$(date +%s)
+       docker build -f ${{ env.DOCKERFILE }} . --tag ${{ env.REGISTRY }}/${{ env.DOCKERFILE }}:$(date +%s)
+       docker run ${{ env.REGISTRY }}/${{ env.DOCKERFILE }}:$(date +%s)
+       docker push ${{ env.REGISTRY }}/${{ env.DOCKERFILE }}:$(date +%s)
